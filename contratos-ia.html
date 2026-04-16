@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ContratosIA">
+<title>ContratosIA — Icone Imob</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f5f3ee;--card:#fff;--ink:#1a1a18;--ink2:#5a5a52;--ink3:#9a9a90;--accent:#2d5a3d;--al:#e8f0eb;--border:#e0ddd6;--r:14px;--sb:env(safe-area-inset-bottom,0px);--sl:env(safe-area-inset-left,0px);--sr:env(safe-area-inset-right,0px);}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+
+  /* ── iPhone: nav em baixo ── */
+  @media (max-width:767px){
+    body{padding-bottom:calc(72px + var(--sb));}
+    .main{max-width:600px;margin:0 auto;padding:1rem;}
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);padding:8px 0 calc(8px + var(--sb));display:flex;z-index:200;}
+    .side-nav{display:none;}
+  }
+
+  /* ── iPad / Tablet: nav lateral ── */
+  @media (min-width:768px){
+    body{padding-bottom:0;display:flex;flex-direction:column;min-height:100vh;font-size:15px;}
+    .app-body{display:flex;flex:1;max-width:1200px;margin:0 auto;width:100%;padding:1.5rem 2rem 2rem;}
+    .side-nav{width:210px;flex-shrink:0;margin-right:1.75rem;}
+    .side-nav-inner{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:.75rem;position:sticky;top:72px;}
+    .side-nav-btn{display:flex;align-items:center;gap:10px;width:100%;padding:13px 14px;border-radius:10px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--ink2);cursor:pointer;transition:all .18s;text-align:left;}
+    .side-nav-btn.active{background:var(--accent);color:#fff;}
+    .side-nav-btn .nav-ic{font-size:1.3rem;}
+    .main{flex:1;min-width:0;padding:0;}
+    .bottom-nav{display:none;}
+    header{padding:0 2rem;height:60px;}
+    .logo{font-size:1.3rem;}
+    .badge{font-size:11px;padding:4px 12px;}
+    .modal-bg{padding:2rem;}
+    .modal{max-width:760px;}
+    .modal textarea{min-height:500px;font-size:13px;}
+    /* Grade 2 colunas no iPad */
+    .modelo-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .dl-grid{grid-template-columns:1fr 1fr 1fr 1fr;}
+    .contract-preview{max-height:520px;font-size:13.5px;line-height:1.9;}
+    .ic-grid{grid-template-columns:repeat(10,1fr);}
+    .card-title{font-size:1.1rem;}
+    .card-sub{font-size:13px;}
+    textarea{font-size:15px;min-height:160px;}
+    .btn-gen{font-size:16px;padding:18px;}
+    .field input,.field select{font-size:15px;padding:12px 14px;}
+    /* Layout 2 colunas na tela de modelos */
+    .lib-item{padding:14px 16px;}
+    .lib-nome{font-size:14px;}
+    .lib-tipo{font-size:12px;}
+    .upload-zone{padding:1.75rem;}
+    .uz-ic{font-size:2.2rem;}
+    .uz-lbl{font-size:14px;}
+  }
+
+  /* ── iPad Pro / Desktop ── */
+  @media (min-width:1024px){
+    .app-body{padding:2rem 2.5rem 3rem;}
+    .side-nav{width:230px;}
+    textarea{font-size:15px;}
+    .card{padding:1.75rem;}
+    .modelo-btn{padding:14px 16px;}
+    .modelo-nome{font-size:14px;}
+    .modelo-desc{font-size:12px;}
+    /* Colunas na tela de adicionar modelo */
+    .add-modelo-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    .add-modelo-grid .upload-zone{grid-column:1/-1;}
+  }
+
+  /* ── Landscape iPad ── */
+  @media (min-width:768px) and (orientation:landscape){
+    .modelo-grid{grid-template-columns:1fr 1fr 1fr;}
+  }
+  header{background:var(--accent);padding:0 1.25rem;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+  .logo{font-family:'Playfair Display',serif;font-size:1.1rem;color:#fff;}
+  .logo span{color:#a8d5b5;}
+  .badge{background:rgba(255,255,255,.15);color:#fff;font-size:10px;padding:3px 10px;border-radius:20px;}
+  .card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:1.25rem;margin-bottom:.75rem;}
+  .card-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:500;margin-bottom:.2rem;}
+  .card-sub{font-size:12px;color:var(--ink3);margin-bottom:1rem;line-height:1.5;}
+  .modelo-grid{display:flex;flex-direction:column;gap:8px;}
+  .modelo-btn{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .18s;text-align:left;width:100%;}
+  .modelo-btn.selected{border-color:var(--accent);background:var(--al);}
+  .modelo-ic{font-size:1.3rem;flex-shrink:0;}
+  .modelo-info{flex:1;min-width:0;}
+  .modelo-nome{font-size:13px;font-weight:500;color:var(--ink);}
+  .modelo-desc{font-size:11px;color:var(--ink3);margin-top:1px;}
+  .modelo-check{width:18px;height:18px;border-radius:50%;background:var(--accent);display:none;align-items:center;justify-content:center;color:#fff;font-size:11px;flex-shrink:0;}
+  .modelo-btn.selected .modelo-check{display:flex;}
+  textarea{width:100%;min-height:130px;border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);resize:vertical;outline:none;background:#fafaf8;line-height:1.6;-webkit-appearance:none;}
+  textarea:focus{border-color:var(--accent);}
+  textarea::placeholder{color:var(--ink3);}
+  .btn-gen{width:100%;padding:16px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;-webkit-appearance:none;}
+  .btn-gen:disabled{background:var(--ink3);cursor:not-allowed;}
+  .status-bar{display:none;align-items:center;gap:10px;padding:12px 14px;background:var(--al);border-radius:10px;margin-top:.75rem;font-size:13px;color:var(--accent);}
+  .status-bar.on{display:flex;}
+  .spinner{width:16px;height:16px;border:2px solid rgba(45,90,61,.25);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .err{background:#fdf0ef;border:1px solid #e8a09a;border-radius:8px;padding:12px 14px;font-size:13px;color:#c0392b;margin-top:.75rem;display:none;}
+  .result-card{display:none;background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:1.25rem;margin-top:.75rem;}
+  .result-card.on{display:block;}
+  .result-title{font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:.75rem;}
+
+  /* Botões de download — grade 2x2 */
+  .dl-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.75rem;}
+  .btn-dl{padding:14px 8px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:var(--card);color:var(--ink);font-family:'DM Sans',sans-serif;transition:all .15s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px;-webkit-appearance:none;text-decoration:none;}
+  .btn-dl .ic{font-size:1.3rem;}
+  .btn-dl .lbl{font-size:10px;color:var(--ink3);}
+  .btn-dl.word{border-color:#2b6cb0;color:#2b6cb0;}
+  .btn-dl.redpdf{border-color:#c53030;color:#c53030;}
+  .btn-dl.copy{border-color:var(--accent);color:var(--accent);}
+  .btn-dl.share{border-color:#7c3aed;color:#7c3aed;}
+
+  .contract-preview{background:#fafaf8;border:1px solid var(--border);border-radius:10px;padding:1rem;font-size:12px;line-height:1.8;white-space:pre-wrap;max-height:300px;overflow-y:auto;color:var(--ink);-webkit-overflow-scrolling:touch;}
+  .alert-warn{background:#fdf3e7;border:1px solid #e8c07a;border-radius:8px;padding:10px 12px;font-size:11.5px;color:#7a4f1a;margin-top:.75rem;line-height:1.5;}
+  .hint{font-size:11.5px;color:var(--ink3);margin-top:6px;}
+  .link{color:var(--accent);cursor:pointer;text-decoration:underline;}
+
+  /* Nav */
+  .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;}
+  .nav-ic{font-size:1.2rem;}
+  .nav-lbl{font-size:10px;color:var(--ink3);font-weight:500;}
+  .nav-btn.active .nav-lbl{color:var(--accent);}
+  .screen{display:none;}
+  .screen.on{display:block;}
+
+  /* Lib */
+  .lib-item{display:flex;align-items:center;gap:10px;padding:12px;border-radius:10px;border:1px solid var(--border);margin-bottom:8px;}
+  .lib-ic{font-size:1.2rem;flex-shrink:0;}
+  .lib-info{flex:1;min-width:0;}
+  .lib-nome{font-size:13px;font-weight:500;}
+  .lib-tipo{font-size:11px;color:var(--ink3);margin-top:1px;}
+  .lib-tag{background:var(--al);color:var(--accent);font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px;flex-shrink:0;}
+  .lib-actions{display:flex;gap:6px;flex-shrink:0;}
+
+  /* Upload zona */
+  .upload-zone{border:2px dashed var(--border);border-radius:10px;padding:1.25rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:.75rem;}
+  .upload-zone:hover,.upload-zone.loaded{border-color:var(--accent);background:var(--al);border-style:solid;}
+  .uz-ic{font-size:1.8rem;margin-bottom:4px;}
+  .uz-lbl{font-size:13px;font-weight:500;color:var(--ink2);}
+  .uz-hint{font-size:11px;color:var(--ink3);margin-top:2px;}
+  .uz-ok{font-size:12px;color:var(--accent);font-weight:500;margin-top:4px;display:none;}
+  input[type=file]{display:none;}
+
+  /* Campos */
+  .field{margin-bottom:.75rem;}
+  .field label{display:block;font-size:11px;font-weight:500;color:var(--ink2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
+  .field input,.field select{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);background:var(--card);outline:none;-webkit-appearance:none;}
+  .field input:focus,.field select:focus{border-color:var(--accent);}
+
+  /* Botões pequenos */
+  .btn-sm{padding:8px 14px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--ink);font-family:'DM Sans',sans-serif;-webkit-appearance:none;transition:all .15s;}
+  .btn-sm.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .btn-sm.danger{color:#c0392b;border-color:#e8a09a;}
+  .btn-sm.warning{color:#854f0b;border-color:#e8c07a;background:#fdf3e7;}
+  .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:.75rem;}
+
+  /* Emoji picker */
+  .ic-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:.5rem;}
+  .ic-opt{padding:8px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);font-size:1.2rem;cursor:pointer;text-align:center;transition:all .15s;}
+  .ic-opt.selected{border-color:var(--accent);background:var(--al);}
+
+  /* Modal */
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;padding:1rem 1rem 2rem;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  .modal-bg.on{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:1.5rem;}
+  .modal{background:var(--card);border-radius:var(--r);width:100%;max-width:680px;padding:1.25rem;position:relative;flex-shrink:0;}
+  .modal-title{font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:.2rem;}
+  .modal-sub{font-size:12px;color:var(--ink3);margin-bottom:1rem;}
+  .modal-close{position:absolute;top:10px;right:12px;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--ink3);padding:4px;line-height:1;}
+  .modal textarea{min-height:380px;font-size:12px;line-height:1.7;background:#fafaf8;}
+  .divider{height:1px;background:var(--border);margin:.75rem 0;}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Contratos<span>IA</span></div>
+  <div class="badge">ICONE IMOB</div>
+</header>
+
+<!-- Estrutura responsiva: side-nav (iPad) + main -->
+<div class="app-body">
+
+  <!-- Nav lateral — aparece só no iPad/Desktop -->
+  <div class="side-nav">
+    <div class="side-nav-inner">
+      <button class="side-nav-btn active" id="side-gerar" onclick="navTo('gerar')">
+        <span class="nav-ic">📄</span> Gerar contrato
+      </button>
+      <button class="side-nav-btn" id="side-lib" onclick="navTo('lib')">
+        <span class="nav-ic">📚</span> Modelos
+      </button>
+    </div>
+  </div>
+
+  <div class="main">
+
+  <!-- ═══ TELA: GERAR ═══ -->
+  <div class="screen on" id="sc-gerar">
+    <div class="card">
+      <div class="card-title">Escolha o modelo</div>
+      <div class="card-sub">Selecione o contrato para a negociação. Toque em <strong>✎</strong> para revisar antes de gerar.</div>
+      <div class="modelo-grid" id="modelo-grid"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Dados do negócio</div>
+      <div class="card-sub">Cole o e-mail do corretor — vendedor, comprador, imóvel, pagamento e banco.</div>
+      <textarea id="ei" placeholder="Cole as informações aqui...&#10;&#10;Ex: Vendedor: João Silva, CPF 123.456.789-00, casado, Rua X, 100, Belém/PA&#10;Comprador: Maria Costa, CPF 987.654.321-00, Rua Y, 200, Belém/PA&#10;Imóvel: Rua Z, 300, apto 10 — matrícula 12345&#10;Valor: R$ 350.000 — Sinal R$ 50.000 — Financiamento&#10;Banco: Bradesco — Ag. 1234 — CC 56789-0 — PIX: 000.000.000-00"></textarea>
+      <div class="hint"><span class="link" onclick="fillEx()">Ver exemplo</span></div>
+    </div>
+    <button class="btn-gen" onclick="gerar()" id="btn-gen">✦ Gerar contrato com IA</button>
+    <div class="status-bar" id="sb"><div class="spinner"></div><span id="st">Processando...</span></div>
+    <div class="err" id="err"></div>
+    <div class="result-card" id="rc">
+      <div class="result-title">Contrato gerado ✓</div>
+      <div class="dl-grid">
+        <button class="btn-dl word" id="btn-docx" onclick="dlDocx()">
+          <div class="ic">📝</div><div style="font-weight:500">Word</div><div class="lbl">Baixar .docx</div>
+        </button>
+        <button class="btn-dl redpdf" onclick="dlPdf()">
+          <div class="ic">📕</div><div style="font-weight:500">PDF</div><div class="lbl">Abrir e salvar</div>
+        </button>
+        <button class="btn-dl copy" onclick="copiar()" id="bcopy">
+          <div class="ic">📋</div><div style="font-weight:500">Copiar</div><div class="lbl">Texto completo</div>
+        </button>
+        <button class="btn-dl share" onclick="compartilhar()">
+          <div class="ic">📤</div><div style="font-weight:500">Compartilhar</div><div class="lbl">WhatsApp/E-mail</div>
+        </button>
+      </div>
+      <div class="contract-preview" id="cp"></div>
+      <div class="alert-warn">⚠️ Revise com advogado antes de assinar.</div>
+    </div>
+  </div>
+
+  <!-- ═══ TELA: MODELOS ═══ -->
+  <div class="screen" id="sc-lib">
+
+    <!-- Adicionar novo modelo -->
+    <div class="card">
+      <div class="card-title">Adicionar novo modelo</div>
+      <div class="card-sub">Suba o PDF do seu modelo de contrato. O app extrai o texto e salva na biblioteca.</div>
+
+      <div class="upload-zone" id="novo-uz" onclick="document.getElementById('novo-pdf').click()">
+        <div class="uz-ic">📄</div>
+        <div class="uz-lbl" id="novo-uz-lbl">Toque para enviar o PDF do modelo</div>
+        <div class="uz-hint">O texto será extraído automaticamente</div>
+        <div class="uz-ok" id="novo-uz-ok"></div>
+      </div>
+      <input type="file" id="novo-pdf" accept=".pdf" onchange="handleNovoPdf(this)">
+
+      <div class="field">
+        <label>Nome do modelo</label>
+        <input id="novo-nome" placeholder="Ex: Compra e Venda Simples, Locação Comercial..." maxlength="60">
+      </div>
+      <div class="field">
+        <label>Tipo</label>
+        <select id="novo-tipo">
+          <option value="Compra e Venda">Compra e Venda</option>
+          <option value="Locação">Locação</option>
+          <option value="Permuta">Permuta</option>
+          <option value="Outros">Outros</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Ícone</label>
+        <div class="ic-grid" id="ic-picker">
+          <div class="ic-opt selected" onclick="selIc('🏠',this)">🏠</div>
+          <div class="ic-opt" onclick="selIc('🏢',this)">🏢</div>
+          <div class="ic-opt" onclick="selIc('🔑',this)">🔑</div>
+          <div class="ic-opt" onclick="selIc('🛋️',this)">🛋️</div>
+          <div class="ic-opt" onclick="selIc('🏦',this)">🏦</div>
+          <div class="ic-opt" onclick="selIc('📋',this)">📋</div>
+          <div class="ic-opt" onclick="selIc('🏗️',this)">🏗️</div>
+          <div class="ic-opt" onclick="selIc('🌿',this)">🌿</div>
+          <div class="ic-opt" onclick="selIc('🤝',this)">🤝</div>
+          <div class="ic-opt" onclick="selIc('📜',this)">📜</div>
+          <div class="ic-opt" onclick="selIc('🏡',this)">🏡</div>
+          <div class="ic-opt" onclick="selIc('🏘️',this)">🏘️</div>
+        </div>
+      </div>
+
+      <div class="err" id="novo-err"></div>
+      <div class="btn-row">
+        <button class="btn-sm primary" onclick="salvarNovoModelo()" style="flex:1">✓ Salvar na biblioteca</button>
+      </div>
+    </div>
+
+    <!-- Lista de modelos -->
+    <div class="card">
+      <div class="card-title">Modelos cadastrados</div>
+      <div class="card-sub" id="lib-count"></div>
+      <div id="lib-lista"></div>
+    </div>
+
+  </div><!-- /.sc-lib -->
+
+  </div><!-- /.main -->
+</div><!-- /.app-body -->
+
+<!-- Bottom Nav — iPhone apenas (oculto no iPad via CSS) -->
+<div class="bottom-nav">
+  <button class="nav-btn active" id="nav-gerar" onclick="navTo('gerar')">
+    <div class="nav-ic">📄</div><div class="nav-lbl">Gerar</div>
+  </button>
+  <button class="nav-btn" id="nav-lib" onclick="navTo('lib')">
+    <div class="nav-ic">📚</div><div class="nav-lbl">Modelos</div>
+  </button>
+</div>
+
+<!-- Modal: Revisar/Editar modelo -->
+<div class="modal-bg" id="modal-revisar">
+  <div class="modal">
+    <button class="modal-close" onclick="fecharModal()">✕</button>
+    <div class="modal-title" id="modal-titulo">Revisar modelo</div>
+    <div class="modal-sub">Edite o texto do modelo. Use [CAMPO] para marcar os dados variáveis.</div>
+    <textarea id="modal-texto" placeholder="Texto do modelo..."></textarea>
+    <div class="btn-row">
+      <button class="btn-sm" onclick="fecharModal()" style="flex:1">Cancelar</button>
+      <button class="btn-sm primary" onclick="salvarEdicaoModelo()" style="flex:2">✓ Salvar alterações</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const MODELOS=[
+  {id:'cv-inquilino-avista',nome:'Compra e Venda — Inquilino à vista',desc:'Comprador já é locatário. Pagamento parcelado.',ic:'🏠',tipo:'Compra e Venda',
+  texto:`CONTRATO Nº [NÚMERO]
+
+CONTRATO DE PROMESSA DE COMPRA E VENDA DE BEM IMÓVEL E INTERMEDIAÇÃO IMOBILIÁRIA
+
+Pelo presente Instrumento Contratual, de um lado: [NOME VENDEDOR 1], de nacionalidade [NACIONALIDADE], [ESTADO CIVIL], [PROFISSÃO], portador da Carteira de Identidade RG nº [RG VENDEDOR 1], inscrito no CPF/MF sob o nº [CPF VENDEDOR 1], residente e domiciliado na [ENDEREÇO VENDEDOR 1]; e [NOME VENDEDOR 2], de nacionalidade [NACIONALIDADE], [ESTADO CIVIL], [PROFISSÃO], portadora da Carteira de Identidade RG nº [RG VENDEDOR 2], inscrita no CPF/MF sob o nº [CPF VENDEDOR 2], residente e domiciliado na [ENDEREÇO VENDEDOR 2]; doravante apenas denominados "VENDEDORES".
+
+E, de outro: [NOME COMPRADOR], de nacionalidade [NACIONALIDADE], [ESTADO CIVIL], [PROFISSÃO], portador(a) da Carteira de Identidade [RG COMPRADOR], inscrito(a) no CPF sob o nº [CPF COMPRADOR], residente e domiciliado(a) na [ENDEREÇO COMPRADOR], doravante denominado(a) "COMPRADOR(A)".
+
+Têm as partes justa e contratada a celebração do presente CONTRATO DE PROMESSA DE COMPRA E VENDA DE BEM IMÓVEL E INTERMEDIAÇÃO IMOBILIÁRIA, o qual será regido pelas disposições legais aplicáveis, bem como pelos termos e condições seguintes:
+
+DO OBJETO DO CONTRATO
+
+CLÁUSULA 1ª – O presente instrumento tem como objeto a venda do imóvel residencial, [ENDEREÇO COMPLETO DO IMÓVEL]. Imóvel de propriedade dos VENDEDORES.
+
+PARÁGRAFO ÚNICO – Pelo presente instrumento e na melhor forma de direito, os VENDEDORES tem ajustado vender, conforme promete o(a) COMPRADOR(A), e esse(a) a comprar, o imóvel acima descrito e caracterizado, que possuem de forma livre e desembaraçada de quaisquer ônus real, pessoal, fiscal ou extrajudicial, dívidas, arrestos ou sequestros, ou, ainda, de restrições de qualquer natureza, pelo preço e de conformidade com as cláusulas abaixo estabelecidas.
+
+PREÇO DO IMÓVEL E CONDIÇÕES DE PAGAMENTO
+
+CLÁUSULA 2ª – O preço certo e ajustado da venda ora pactuada é de [VALOR TOTAL] ([VALOR POR EXTENSO]), que será pago pelo(a) COMPRADOR(A) aos VENDEDORES da seguinte forma:
+
+[CONDIÇÕES DE PAGAMENTO DETALHADAS]
+
+PARÁGRAFO PRIMEIRO – Os valores acima mencionados deverão ser pagos mediante transferência bancária, nas seguintes contas bancárias:
+
+[DADOS BANCÁRIOS DOS VENDEDORES]
+
+O comprovante de transferência bancária servirá como recibo de pagamento, após a confirmação e compensação do respectivo valor nas contas indicadas.
+
+PARÁGRAFO SEGUNDO – o pagamento do preço acordado está condicionado à apresentação dos documentos listados abaixo e as despesas para a obtenção destes documentos é de responsabilidade dos VENDEDORES:
+
+1) Certidão de inteiro teor atualizada de matrícula do imóvel e cópia autenticada da escritura Pública de Compra e Venda;
+2) Carteira Nacional de Habilitação Digital, CPF/MF e certidão de casamento, de união estável, ou de nascimento dos VENDEDORES, o que couber;
+3) Certidão sobre ações cíveis e criminais, disponíveis nos sites da Justiça Federal e do Tribunal de Justiça do Estado do Pará;
+4) Certidão de quitação dos tributos federais, a ser obtida no site da Receita Federal;
+5) Certidões de ações trabalhistas a ser obtida no site do Tribunal Superior do Trabalho;
+6) Certidão negativa de tributos municipais incidentes sobre o imóvel objeto do presente negócio;
+7) Certidão Negativa de Débito Condominial (CND);
+
+DAS OBRIGAÇÕES DOS VENDEDORES
+
+CLÁUSULA 3ª – O(A) COMPRADOR(A) declara que já ocupa o imóvel objeto deste contrato na qualidade de locatário(a), razão pela qual não haverá necessidade de entrega de chaves pelos VENDEDORES. Fica estabelecido que, após o pagamento do valor da entrada, o(a) COMPRADOR(A) passará a exercer a posse do imóvel na condição de promitente comprador(a).
+
+CLÁUSULA 4ª – Será de responsabilidade dos VENDEDORES o pagamento dos impostos, taxas e demais encargos que incidam sobre o imóvel até a data da assinatura deste contrato, passando, a partir de então, tais obrigações a serem de responsabilidade do(a) COMPRADOR(A).
+
+CLÁUSULA 5ª – Obrigam-se os VENDEDORES a outorgar ao(à) COMPRADOR(A) a competente Escritura Definitiva de Compra e Venda do imóvel descrito na Cláusula 1ª, totalmente livre e desembaraçado de quaisquer ônus ou gravames, no prazo máximo de 30 (trinta) dias contados da quitação integral do valor estipulado neste contrato.
+
+PARÁGRAFO ÚNICO – Correrão a expensas dos VENDEDORES as despesas para apresentação das certidões necessárias à lavratura da Escritura Pública de Compra e Venda.
+
+DAS OBRIGAÇÕES DO(A) COMPRADOR(A)
+
+CLÁUSULA 6ª – O(A) COMPRADOR(A) declara que promoverá, em até 30 (trinta) dias após ter tomado posse do imóvel, a alteração, para seu próprio nome, a titularidade das contas de energia, água (se houver), IPTU e condomínio.
+
+CLÁUSULA 7ª – O(A) COMPRADOR(A) se responsabiliza pelas despesas com a transmissão do imóvel.
+
+CLÁUSULA 8ª – Correrão a expensas do(a) COMPRADOR(A) os impostos, taxas, emolumentos notariais e registrais necessários à lavratura da Escritura Pública de Compra e Venda e posterior Registro.
+
+CESSÃO DE DIREITOS
+
+CLÁUSULA 9ª – O(A) COMPRADOR(A) poderá ceder ou transferir a terceiros os direitos e obrigações decorrentes do presente contrato, mediante prévia comunicação por escrito aos VENDEDORES.
+
+DA IRREVOGABILIDADE E IRRETRATABILIDADE
+
+CLÁUSULA 10ª – O presente contrato é celebrado sob a condição expressa de irrevogabilidade, irretratabilidade e vincula herdeiros e sucessores. Para tal, as partes renunciam expressamente à faculdade de arrependimento prevista no art. 420 do Código Civil.
+
+DA INADIMPLÊNCIA
+
+CLÁUSULA 11ª – Fica aqui pactuado que não cabe desistência e nem arrependimento, o único motivo para a rescisão do presente contrato é a inadimplência, que tem a previsão da multa na Cláusula seguinte.
+
+DA RESCISÃO CONTRATUAL E DAS PENALIDADES
+
+CLÁUSULA 12ª – A presente compra e venda somente poderá ser rescindida, de pleno direito se ocorrer a inadimplência.
+
+PARÁGRAFO ÚNICO – A parte que der causa à rescisão deste contrato caberá a título de multa contratual 10% (dez por cento) sobre o valor do preço acordado.
+
+DISPOSIÇÕES GERAIS
+
+CLÁUSULA 13ª – O(A) COMPRADOR(A) declara que já detém a posse direta do imóvel objeto deste contrato na condição de locatário(a), razão pela qual possui pleno conhecimento de seu estado de conservação e condições gerais, declarando-se de pleno acordo em adquiri-lo no estado em que se encontra, ressalvados eventuais vícios redibitórios.
+
+1º. Todos os prazos relacionados no presente instrumento serão contados a partir da assinatura das partes no presente contrato.
+2º. Os VENDEDORES respondem, na forma da lei, pelos riscos de evicção de direitos.
+
+CLÁUSULA 14ª – As partes autorizam que o presente instrumento seja levado a registro no Cartório de Registro de Imóveis competente.
+
+DA INTERMEDIAÇÃO DE VENDA DO IMÓVEL
+
+CLÁUSULA 15ª – DAS PARTES NA INTERMEDIAÇÃO IMOBILIÁRIA
+
+CONTRATANTE DA CORRETAGEM: [NOME(S) VENDEDOR(ES) COM QUALIFICAÇÃO COMPLETA]
+
+CONTRATADA DA CORRETAGEM: RMX NEGOCIOS IMOBILIÁRIOS LTDA, inscrita no CRECI sob o n° J-838, CNPJ 26.499.669/0001-63, Avenida Senador Lemos, 78, Umarizal, CEP 66050-000, Belém/PA.
+
+CLÁUSULA 16ª – OBJETO: prestação de serviços de corretagem para intermediar a negociação sobre a venda do imóvel descrito na Cláusula 1ª.
+
+CLÁUSULA 17ª – Será pago à CONTRATADA DA CORRETAGEM 6% (seis por cento) do valor total do imóvel de [VALOR TOTAL], a título de honorários, no valor de [VALOR HONORÁRIOS].
+
+PARÁGRAFO ÚNICO – Na eventual hipótese de rescisão contratual, o CONTRATANTE DA CORRETAGEM está ciente que nada lhe será devido a título de reembolso.
+
+CLÁUSULA 18ª – Os CONTRATANTES DA CORRETAGEM declaram ter conhecimento de todas as regras estabelecidas pela RECEITA FEDERAL para o recolhimento do IMPOSTO DE RENDA.
+
+CLÁUSULA 19ª – A presente cláusula é acordada em caráter irrevogável e irretratável, obrigando as partes, seus herdeiros ou sucessores a qualquer título.
+
+DO FORO
+
+CLÁUSULA 20ª – Para dirimir qualquer controvérsia oriunda do presente Instrumento, as partes elegem o foro da Comarca de Belém, Estado do Pará.
+
+E, por se acharem em comum acordo, firmam o presente CONTRATO DE COMPRA E VENDA DE BEM IMÓVEL E INTERMEDIAÇÃO IMOBILIÁRIA, em três vias de igual teor e forma.
+
+Belém-Pará, [DATA].
+
+___________________________________________________________________
+VENDEDOR: [NOME VENDEDOR 1], inscrito no CPF/MF sob o nº [CPF VENDEDOR 1]
+
+___________________________________________________________________
+VENDEDOR(A): [NOME VENDEDOR 2], inscrito(a) no CPF/MF sob o nº [CPF VENDEDOR 2]
+
+___________________________________________________________________
+COMPRADOR(A): [NOME COMPRADOR], inscrito(a) no CPF sob o nº [CPF COMPRADOR]
+
+___________________________________________________________________
+INTERMEDIADOR IMOBILIÁRIO: RMX NEGOCIOS IMOBILIÁRIOS LTDA, CNPJ nº 26.499.669/0001-63.
+
+TESTEMUNHAS:
+
+1) Nome:_____________________
+   RG:_______________________
+   CPF:______________________
+
+2) Nome:_____________________
+   RG:_______________________
+   CPF:______________________`},
+  {id:'cv-avista-objetos',nome:'Compra e Venda à vista — com objetos',desc:'Pagamento único. Lista bens móveis que permanecem.',ic:'🛋️',tipo:'Compra e Venda',
+  texto:`CONTRATO Nº [NÚMERO]
+
+CONTRATO DE PROMESSA DE COMPRA E VENDA DE BEM IMÓVEL E INTERMEDIAÇÃO IMOBILIÁRIA
+
+Pelo presente Instrumento Contratual, de um lado: [NOME VENDEDOR 1], de nacionalidade [NACIONALIDADE], [ESTADO CIVIL], [PROFISSÃO], portador da Carteira de Identidade RG nº [RG VENDEDOR 1], inscrito no CPF/MF sob o nº [CPF VENDEDOR 1], e sua esposa [NOME VENDEDOR 2], de nacionalidade [NACIONALIDADE], [ESTADO CIVIL], [PROFISSÃO], portadora da Carteira de Identidade RG nº [RG VENDEDOR 2], inscrita no CPF/MF sob o nº [CPF VENDEDOR 2], residentes e domiciliados na [ENDEREÇO VENDEDORES]; doravante apenas denominados "VENDEDORES".
+
+E, de outro: [NOME COMPRADOR 1], de nacionalidade [NACIONALIDADE], [ESTADO CIVIL], [PROFISSÃO], portador da Carteira de Identidade RG nº [RG COMPRADOR 1], inscrito no CPF/MF sob o nº [CPF COMPRADOR 1], e [NOME COMPRADOR 2], de nacionalidade [NACIONALIDADE], [ESTADO CIVIL], [PROFISSÃO], portadora da Carteira de Identidade RG nº [RG COMPRADOR 2], inscrita no CPF/MF sob o nº [CPF COMPRADOR 2], residentes e domiciliados na [ENDEREÇO COMPRADORES], doravante denominados "COMPRADORES".
+
+Têm as partes justa e contratada a celebração do presente CONTRATO DE PROMESSA DE COMPRA E VENDA DE BEM IMÓVEL E INTERMEDIAÇÃO IMOBILIÁRIA.
+
+DO OBJETO DO CONTRATO
+
+CLÁUSULA 1ª – O presente instrumento tem como objeto a venda do imóvel residencial, [DESCRIÇÃO COMPLETA DO IMÓVEL]. Imóvel de propriedade dos VENDEDORES, com Inscrição Imobiliária [INSCRIÇÃO], registrado no cartório: [CARTÓRIO] com matrícula [MATRÍCULA].
+
+PARÁGRAFO ÚNICO – Pelo presente instrumento e na melhor forma de direito, os VENDEDORES tem ajustado vender, conforme prometem aos COMPRADORES, e esses a comprar, o imóvel acima descrito e caracterizado, livre e desembaraçado de quaisquer ônus.
+
+DOS BENS QUE PERMANECERÃO NO IMÓVEL
+
+CLÁUSULA 2ª – Fica ajustado entre as partes que permanecerão no imóvel, integrando a presente negociação e já incluídos no valor ajustado, os seguintes bens móveis: [LISTA DE BENS MÓVEIS].
+
+PARÁGRAFO ÚNICO – Os bens acima descritos serão entregues juntamente com o imóvel, no estado de conservação e funcionamento em que se encontram na data da assinatura deste instrumento.
+
+PREÇO DO IMÓVEL E CONDIÇÕES DE PAGAMENTO
+
+CLÁUSULA 3ª – O preço certo e ajustado da venda ora acertado é de [VALOR TOTAL] ([VALOR POR EXTENSO]) que será pago em única parcela no dia da assinatura deste contrato, mediante transferência bancária em favor dos VENDEDORES na conta: [DADOS BANCÁRIOS]. O comprovante da transferência bancária serve como recibo, dando-se quitação automática após a confirmação/compensação do valor em conta.
+
+PARÁGRAFO ÚNICO: o pagamento está condicionado à apresentação dos documentos:
+1) Certidão de inteiro teor atualizada de matrícula do imóvel;
+2) CNH Digital, CPF/MF e certidão de casamento dos VENDEDORES;
+3) Certidão sobre ações cíveis e criminais;
+4) Certidão de quitação dos tributos federais;
+5) Certidões de ações trabalhistas;
+6) Certidão negativa de tributos municipais;
+7) Certidão Negativa de Débito Condominial (CND);
+
+DAS OBRIGAÇÕES DOS VENDEDORES
+
+CLÁUSULA 4ª – A entrega das chaves deverá ser feita pelos VENDEDORES aos COMPRADORES no ato da assinatura deste contrato. Os VENDEDORES se comprometem a disponibilizar o imóvel livre de pessoas ou coisas até o dia [DATA DESOCUPAÇÃO].
+
+CLÁUSULA 5ª – Será de responsabilidade dos VENDEDORES os pagamentos dos impostos, taxas e despesas que incidam sobre o imóvel até a entrega efetiva do imóvel.
+
+CLÁUSULA 6ª – Obriga-se os VENDEDORES a outorgar a competente Escritura Definitiva de Compra e Venda do imóvel, no prazo máximo de 30 (trinta) dias, contados da quitação do valor estipulado neste contrato.
+
+DAS OBRIGAÇÕES DOS COMPRADORES
+
+CLÁUSULA 7ª – Os COMPRADORES declaram que promoverão, em até 30 (trinta) dias após ter tomado posse do imóvel, a alteração, para seu próprio nome, a titularidade das contas de energia, água (se houver), IPTU e condomínio.
+
+CLÁUSULA 8ª – Os COMPRADORES se responsabilizam pelas despesas com a transmissão do imóvel.
+
+CLÁUSULA 9ª – Correrão a expensas dos COMPRADORES os impostos, taxas, emolumentos notariais e registrais necessários à lavratura da Escritura Pública de Compra e Venda e posterior Registro.
+
+CESSÃO DE DIREITOS
+
+CLÁUSULA 10ª – Os COMPRADORES poderão ceder ou transferir os direitos decorrentes deste contrato, ficando cedentes e cessionários solidários.
+
+DA IRREVOGABILIDADE E IRRETRATABILIDADE
+
+CLÁUSULA 11ª – O presente contrato é celebrado sob a condição expressa de irrevogabilidade, irretratabilidade e vincula herdeiros e sucessores. As partes renunciam expressamente à faculdade de arrependimento prevista no art. 420 do Código Civil.
+
+DA INADIMPLÊNCIA E RESCISÃO
+
+CLÁUSULA 12ª – A rescisão somente será admitida na hipótese de inadimplemento contratual.
+
+CLÁUSULA 13ª – A parte que der causa à rescisão caberá a título de multa contratual 10% (dez por cento) sobre o valor do preço acordado.
+
+DISPOSIÇÕES GERAIS
+
+CLÁUSULA 14ª – Os COMPRADORES declaram que previamente realizaram vistoria no imóvel e estão de pleno acordo em recebê-lo no estado em que se encontra. Fica ajustado que a desocupação ocorrerá até o dia [DATA DESOCUPAÇÃO].
+
+1º. Todos os prazos serão contados a partir da assinatura.
+2º. Os VENDEDORES respondem pelos riscos de evicção de direitos.
+
+CLÁUSULA 15ª – Fica o Registro de Imóveis autorizado, mediante solicitação, a promover o registro do presente instrumento.
+
+DO FORO
+
+CLÁUSULA 21ª – As partes elegem o foro da Comarca de Belém, Estado do Pará.
+
+E, por se acharem em comum acordo, firmam o presente CONTRATO DE COMPRA E VENDA DE BEM IMÓVEL E INTERMEDIAÇÃO IMOBILIÁRIA, em três vias de igual teor e forma.
+
+Belém-Pará, [DATA].
+
+___________________________________________________________________
+VENDEDOR: [NOME VENDEDOR 1], CPF/MF nº [CPF VENDEDOR 1]
+
+___________________________________________________________________
+VENDEDOR(A): [NOME VENDEDOR 2], CPF/MF nº [CPF VENDEDOR 2]
+
+___________________________________________________________________
+COMPRADOR: [NOME COMPRADOR 1], CPF/MF nº [CPF COMPRADOR 1]
+
+___________________________________________________________________
+COMPRADORA: [NOME COMPRADOR 2], CPF/MF nº [CPF COMPRADOR 2]
+
+TESTEMUNHAS:
+1) Nome:_____________________ RG:_______________________ CPF:______________________
+2) Nome:_____________________ RG:_______________________ CPF:______________________`},
+  {id:'cv-avista-registrada',nome:'Compra e Venda à vista — registrada',desc:'Pagamento único no ato. Imóvel desocupado.',ic:'📋',tipo:'Compra e Venda',
+  texto:`CONTRATO Nº [NÚMERO]
+
+CONTRATO DE PROMESSA DE COMPRA E VENDA DE BEM IMÓVEL E INTERMEDIAÇÃO IMOBILIÁRIA
+
+Pelo presente Instrumento Contratual, de um lado: [NOME VENDEDOR], de nacionalidade [NACIONALIDADE], [ESTADO CIVIL], [PROFISSÃO], portador da Carteira de Identidade RG nº [RG VENDEDOR], inscrito no CPF/MF sob o nº [CPF VENDEDOR], residente e domiciliado na [ENDEREÇO VENDEDOR]; doravante denominado "VENDEDOR".
+
+E, de outro: [NOME COMPRADOR 1], de nacionalidade [NACIONALIDADE], [PROFISSÃO], portador da Carteira de Identidade RG nº [RG COMPRADOR 1], inscrito no CPF/MF sob o nº [CPF COMPRADOR 1], e [NOME COMPRADOR 2], de nacionalidade [NACIONALIDADE], [PROFISSÃO], portadora da Carteira de Identidade RG nº [RG COMPRADOR 2], inscrita no CPF/MF sob o nº [CPF COMPRADOR 2], [ESTADO CIVIL], residentes e domiciliados na [ENDEREÇO COMPRADORES], doravante denominados "COMPRADORES".
+
+DO OBJETO DO CONTRATO
+
+CLÁUSULA 1ª – O presente instrumento tem como objeto a venda do imóvel residencial, [DESCRIÇÃO COMPLETA DO IMÓVEL]. Inscrição imobiliária: [INSCRIÇÃO], registrado no cartório: [CARTÓRIO] com Matrícula: [MATRÍCULA].
+
+PREÇO DO IMÓVEL E CONDIÇÕES DE PAGAMENTO
+
+CLÁUSULA 2ª – O preço certo e ajustado da venda é de [VALOR TOTAL] ([VALOR POR EXTENSO]) que será pago em única parcela no dia da assinatura deste contrato, mediante transferência bancária em favor do VENDEDOR na conta: [DADOS BANCÁRIOS], ou chave PIX: [CHAVE PIX]. O comprovante da transferência bancária serve como recibo.
+
+PARÁGRAFO ÚNICO: o pagamento está condicionado à apresentação dos documentos:
+1) Certidão de inteiro teor atualizada de matrícula do imóvel;
+2) CNH Digital, CPF/MF e certidão de casamento do(a)(s) VENDEDOR(A)(S);
+3) Certidão sobre ações cíveis e criminais;
+4) Certidão de quitação dos tributos federais;
+5) Certidões de ações trabalhistas;
+6) Certidão negativa de tributos municipais;
+7) Certidão Negativa de Débito Condominial (CND);
+
+DAS OBRIGAÇÕES DO VENDEDOR
+
+CLÁUSULA 3ª – A entrega das chaves deverá ser feita pelo VENDEDOR aos COMPRADORES no ato da assinatura deste contrato, comprometendo-se a disponibilizar o imóvel livre de pessoas ou coisas.
+
+CLÁUSULA 4ª – Será de responsabilidade do VENDEDOR os pagamentos dos impostos, taxas e despesas que incidam sobre o imóvel até a entrega das chaves.
+
+CLÁUSULA 5ª – Obriga-se o VENDEDOR a outorgar a competente Escritura Definitiva de Compra e Venda, no prazo máximo de 30 (trinta) dias.
+
+DAS OBRIGAÇÕES DOS COMPRADORES
+
+CLÁUSULA 6ª – Os COMPRADORES promoverão, em até 30 (trinta) dias após ter tomado posse, a alteração para seu próprio nome das contas de energia, água (se houver), IPTU e condomínio.
+
+CLÁUSULA 7ª – Os COMPRADORES se responsabilizam pelas despesas com a transmissão do imóvel.
+
+CLÁUSULA 8ª – Correrão a expensas dos COMPRADORES os impostos, taxas e emolumentos necessários à lavratura da Escritura Pública e posterior Registro.
+
+DA IRREVOGABILIDADE E INADIMPLÊNCIA
+
+CLÁUSULA 9ª – O presente contrato é irrevogável e irretratável, vinculando herdeiros e sucessores.
+
+CLÁUSULA 10ª – Fica aqui pactuado que não cabe desistência. O único motivo para rescisão é a inadimplência.
+
+CLÁUSULA 11ª – A parte que der causa à rescisão caberá multa de 10% (dez por cento) sobre o valor do preço acordado.
+
+DISPOSIÇÕES GERAIS
+
+CLÁUSULA 12ª – Os COMPRADORES declaram que realizaram vistoria no imóvel e verificou-se que o mesmo está desocupado, estando de pleno acordo em recebê-lo.
+
+CLÁUSULA 13ª – A presente cláusula é acordada em caráter irrevogável e irretratável, obrigando as partes, seus herdeiros ou sucessores.
+
+DO FORO
+
+CLÁUSULA 14ª – As partes elegem o foro da Comarca de Belém, Estado do Pará.
+
+E, por se acharem em comum acordo, firmam o presente CONTRATO DE COMPRA E VENDA DE BEM IMÓVEL E INTERMEDIAÇÃO IMOBILIÁRIA, em três vias.
+
+Belém-Pará, [DATA].
+
+___________________________________________________________________
+VENDEDOR: [NOME VENDEDOR], CPF/MF nº [CPF VENDEDOR]
+
+___________________________________________________________________
+COMPRADOR: [NOME COMPRADOR 1], CPF/MF nº [CPF COMPRADOR 1]
+
+___________________________________________________________________
+COMPRADORA: [NOME COMPRADOR 2], CPF/MF nº [CPF COMPRADOR 2]
+
+___________________________________________________________________
+INTERMEDIADOR IMOBILIÁRIO: RMX NEGOCIOS IMOBILIÁRIOS LTDA, CNPJ nº 26.499.669/0001-63.
+
+TESTEMUNHAS:
+1) Nome:_____________________ RG:_______________________ CPF:______________________
+2) Nome:_____________________ RG:_______________________ CPF:______________________`},
+  {id:'cv-financiado-moveis',nome:'Compra e Venda financiada — com móveis',desc:'Sinal + FGTS + financiamento. Chaves em 30 dias.',ic:'🏦',tipo:'Compra e Venda',
+  texto:`RMX NEGOCIOS IMOBILIÁRIOS LTDA ME - CNPJ/MF: 26.499.669/0001-63
+Avenida Senador Lemos, 78, Altos – CEP: 66050-000, Bairro: Umarizal – Belém/PA.
+
+CONTRATO Nº [NÚMERO]
+
+CONTRATO DE PROMESSA DE COMPRA E VENDA DE BEM IMÓVEL E INTERMEDIAÇÃO IMOBILIÁRIA
+
+Pelo presente Instrumento Contratual, de um lado: [NOME VENDEDOR 1], de nacionalidade [NACIONALIDADE], [ESTADO CIVIL], [PROFISSÃO], portador da Carteira de Identidade RG nº [RG VENDEDOR 1], inscrito no CPF/MF sob o nº [CPF VENDEDOR 1], [NOME VENDEDOR 2], de nacionalidade [NACIONALIDADE], [ESTADO CIVIL], [PROFISSÃO], portadora da Carteira de Identidade RG nº [RG VENDEDOR 2], inscrita no CPF/MF sob o nº [CPF VENDEDOR 2], residentes e domiciliados na [ENDEREÇO VENDEDORES]; doravante apenas denominados "VENDEDORES".
+
+E, de outro: [NOME COMPRADOR 1], de nacionalidade [NACIONALIDADE], [ESTADO CIVIL], [PROFISSÃO], portador da Carteira de Identidade RG nº [RG COMPRADOR 1], inscrito no CPF/MF sob o nº [CPF COMPRADOR 1] e sua esposa [NOME COMPRADOR 2] de nacionalidade [NACIONALIDADE], [ESTADO CIVIL], [PROFISSÃO], portador da Carteira de Identidade RG nº [RG COMPRADOR 2], inscrita no CPF/MF sob o nº [CPF COMPRADOR 2], residentes e domiciliados na [ENDEREÇO COMPRADORES], doravante denominados "COMPRADORES".
+
+DO OBJETO DO CONTRATO
+
+CLÁUSULA 1ª – O presente instrumento tem como objeto a venda do IMÓVEL [DESCRIÇÃO COMPLETA DO IMÓVEL]. Inscrição Municipal: [INSCRIÇÃO]. [CARTÓRIO], Matrícula: [MATRÍCULA]. Imóvel de propriedade dos VENDEDORES.
+
+PARÁGRAFO PRIMEIRO – Pelo presente instrumento e na melhor forma de direito, os VENDEDORES têm ajustado vender, conforme prometem os COMPRADORES.
+
+PARÁGRAFO SEGUNDO – Foi acordado entre as partes, que ficarão no imóvel:
+[LISTA DE MÓVEIS E OBJETOS QUE PERMANECEM NO IMÓVEL]
+
+PREÇO DO IMÓVEL E CONDIÇÕES DE PAGAMENTO
+
+CLÁUSULA 2ª – O preço certo e ajustado da venda é de [VALOR TOTAL] ([VALOR POR EXTENSO]), que será pago da seguinte maneira:
+
+I. 1ª parcela – SINAL: [VALOR SINAL] ([SINAL POR EXTENSO]), pago no dia da assinatura, via transferência bancária ao [BANCO], AG. [AGÊNCIA], C/C [CONTA], PIX (CPF): [PIX], em favor de [NOME VENDEDOR], CPF nº [CPF VENDEDOR];
+
+II. 2ª parcela – FGTS: [VALOR FGTS] ([FGTS POR EXTENSO]), a ser pago junto com o financiamento, no prazo de 3 meses (90 dias) da assinatura.
+
+III. 3ª parcela – FINANCIAMENTO: [VALOR FINANCIAMENTO] ([FINANCIAMENTO POR EXTENSO]), via financiamento bancário, no prazo de 3 meses (90 dias) da assinatura.
+
+PARÁGRAFO PRIMEIRO – Em caso de impontualidade, as parcelas serão atualizadas pelo IGPM acrescido de 0,5% ao mês.
+
+PARÁGRAFO SEGUNDO – Fica assegurado aos VENDEDORES o direito de cobrar dos COMPRADORES todas e quaisquer prestações, multas, juros e atualização monetária não quitados.
+
+DAS OBRIGAÇÕES DOS VENDEDORES
+
+CLÁUSULA 3ª – A entrega das chaves deverá ser feita em 30 (trinta) dias após o pagamento integral, comprometendo-se a disponibilizar o imóvel livre de pessoas ou coisas.
+
+CLÁUSULA 4ª – Os VENDEDORES são responsáveis pelos impostos, taxas e despesas até a entrega das chaves.
+
+CLÁUSULA 5ª – Os VENDEDORES comprometem-se a disponibilizar a Escritura Definitiva de Compra e Venda no prazo máximo de 3 meses (90 dias) da quitação.
+
+PARÁGRAFO ÚNICO – Correrão a expensas dos VENDEDORES as despesas para as certidões necessárias ao financiamento bancário.
+
+DAS OBRIGAÇÕES DOS COMPRADORES
+
+CLÁUSULA 6ª – Os COMPRADORES promoverão, em até 2 meses (60 dias) após a posse, a alteração da titularidade das contas de energia, água, IPTU e condomínio.
+
+CLÁUSULA 7ª – Os COMPRADORES se responsabilizam pelas despesas com a transmissão do imóvel.
+
+CLÁUSULA 8ª – Correrão a expensas dos COMPRADORES os impostos, taxas e emolumentos necessários à lavratura da Escritura Pública e Registro.
+
+DA RESCISÃO E DESISTÊNCIA
+
+CLÁUSULA 9ª – O presente contrato é irrevogável e irretratável, vinculando herdeiros e sucessores.
+
+CLÁUSULA 10ª – Será devido pela parte que desistir multa de 10% (dez por cento) sobre o valor do imóvel.
+
+PARÁGRAFO ÚNICO – Se desfeito de comum acordo, ficam dispensadas as partes da indenização.
+
+CLÁUSULA 11ª – Em caso de desistência pelos COMPRADORES, os honorários da Icone Imob serão pagos com os valores arrecadados pelos VENDEDORES.
+
+INADIMPLÊNCIA
+
+CLÁUSULA 12ª – Ocorrerá a rescisão do presente contrato em caso de inadimplência.
+
+PARÁGRAFO ÚNICO – A parte inadimplente indenizará a outra no montante de 10% do valor total.
+
+CLÁUSULA 13ª – Em caso de rescisão por inadimplemento sem culpa dos VENDEDORES, os COMPRADORES pagarão multa de 10% do valor do imóvel.
+
+PARÁGRAFO ÚNICO – Se comprovada a culpa exclusiva do banco, poderá ser reajustada nova data por Termo Aditivo.
+
+DISPOSIÇÕES GERAIS
+
+CLÁUSULA 14ª – Os COMPRADORES declaram que realizaram vistoria e o imóvel está ocupado, estando de pleno acordo em recebê-lo.
+
+1º. Todos os prazos são contados a partir da assinatura.
+2º. Os VENDEDORES respondem pelos riscos de evicção.
+
+CLÁUSULA 15ª – Fica o Registro de Imóveis autorizado a promover o registro do presente instrumento.
+
+DA INTERMEDIAÇÃO IMOBILIÁRIA
+
+CLÁUSULA 16ª – CONTRATANTES DA CORRETAGEM: [NOME(S) VENDEDOR(ES)]
+
+CONTRATADA DA CORRETAGEM: RMX NEGOCIOS IMOBILIÁRIOS LTDA, CRECI J-838, CNPJ 26.499.669/0001-63, Av. Senador Lemos, 78, Umarizal, Belém/PA.
+
+CLÁUSULA 17ª – Será pago à CONTRATADA 6% do valor total de [VALOR TOTAL], honorários no valor de [VALOR HONORÁRIOS (6%)].
+
+CLÁUSULA 18ª – Os CONTRATANTES declaram ter conhecimento das regras da RECEITA FEDERAL para o IMPOSTO DE RENDA.
+
+DO FORO
+
+CLÁUSULA 19ª – As partes elegem o foro da Comarca de Belém, Estado do Pará.
+
+E, por se acharem em comum acordo, firmam o presente CONTRATO DE PROMESSA DE COMPRA E VENDA DE BEM IMÓVEL E INTERMEDIAÇÃO IMOBILIÁRIA, em três vias.
+
+Belém-Pará, [DATA].
+
+___________________________________________________________________
+VENDEDOR: [NOME VENDEDOR 1], CPF nº [CPF VENDEDOR 1].
+
+___________________________________________________________________
+VENDEDORA: [NOME VENDEDOR 2], CPF nº [CPF VENDEDOR 2].
+
+___________________________________________________________________
+COMPRADOR: [NOME COMPRADOR 1], CPF nº [CPF COMPRADOR 1]
+COMPRADORA: [NOME COMPRADOR 2], CPF nº [CPF COMPRADOR 2]
+
+___________________________________________________________________
+INTERMEDIADOR IMOBILIÁRIO: RMX NEGOCIOS IMOBILIÁRIOS LTDA, CNPJ nº 26.499.669/0001-63.
+
+TESTEMUNHAS:
+1) Nome:_____________________ RG:_______________________ CPF:______________________
+2) Nome:_____________________ RG:_______________________ CPF:______________________`},
+  {id:'cv-financiado-desocupado',nome:'Compra e Venda financiada — desocupado',desc:'Sinal + financiamento. Alienação fiduciária.',ic:'🔑',tipo:'Compra e Venda',
+  texto:`RMX NEGOCIOS IMOBILIÁRIOS LTDA ME - CNPJ/MF: 26.499.669/0001-63
+Avenida Senador Lemos, 78, Altos – CEP: 66050-000, Bairro: Umarizal – Belém/PA.
+
+CONTRATO Nº [NÚMERO]
+
+CONTRATO DE PROMESSA DE COMPRA E VENDA DE BEM IMÓVEL E INTERMEDIAÇÃO IMOBILIÁRIA
+
+Pelo presente Instrumento Contratual, de um lado: [NOME VENDEDOR 1], de nacionalidade [NACIONALIDADE], [ESTADO CIVIL], [PROFISSÃO], portador da Carteira de Identidade RG nº [RG VENDEDOR 1], inscrito no CPF/MF sob o nº [CPF VENDEDOR 1], e sua esposa [NOME VENDEDOR 2], de nacionalidade [NACIONALIDADE], [ESTADO CIVIL], [PROFISSÃO], portadora da Carteira de Identidade RG nº [RG VENDEDOR 2], inscrita no CPF/MF sob o nº [CPF VENDEDOR 2], residente e domiciliado na [ENDEREÇO VENDEDORES]; doravante apenas denominados "VENDEDORES".
+
+E, de outro: [NOME COMPRADOR], de nacionalidade [NACIONALIDADE], [ESTADO CIVIL], [PROFISSÃO], portador(a) da Carteira de Identidade RG nº [RG COMPRADOR], inscrita no CPF/MF sob o nº [CPF COMPRADOR], residente e domiciliado na [ENDEREÇO COMPRADOR], doravante denominada "COMPRADORA".
+
+DO OBJETO DO CONTRATO
+
+CLÁUSULA 1ª – Venda do imóvel residencial: [ENDEREÇO COMPLETO DO IMÓVEL]. Inscrição imobiliária: [INSCRIÇÃO], registrado no cartório: [CARTÓRIO] com Matrícula: [MATRÍCULA].
+
+PREÇO DO IMÓVEL E CONDIÇÕES DE PAGAMENTO
+
+CLÁUSULA 2ª – Preço de [VALOR TOTAL] ([VALOR POR EXTENSO]), pago da seguinte maneira:
+
+I. SINAL: [VALOR SINAL] ([SINAL POR EXTENSO]), pago na assinatura, via transferência ao [BANCO], AG. [AGÊNCIA], C/C [CONTA], PIX ([TIPO PIX]): [CHAVE PIX], em favor de [NOME VENDEDOR], CPF nº [CPF VENDEDOR];
+
+II. FINANCIAMENTO: [VALOR FINANCIAMENTO] ([FINANCIAMENTO POR EXTENSO]), via financiamento bancário, prazo de 3 meses (90 dias).
+
+PARÁGRAFO PRIMEIRO – Em caso de impontualidade, parcelas atualizadas pelo IGP-M mais 0,5% ao mês.
+
+PARÁGRAFO SEGUNDO – Assegurado aos VENDEDORES o direito de cobrar prestações, multas e juros não quitados.
+
+DAS OBRIGAÇÕES DOS VENDEDORES
+
+CLÁUSULA 3ª – Entrega das chaves após o pagamento integral, disponibilizando o imóvel livre de pessoas ou coisas.
+
+CLÁUSULA 4ª – VENDEDORES responsáveis pelos impostos e taxas até a entrega das chaves.
+
+CLÁUSULA 5ª – Os VENDEDORES obrigam-se a promover a averbação da baixa da alienação fiduciária junto à matrícula do imóvel antes da lavratura da escritura definitiva.
+
+CLÁUSULA 6ª – Os VENDEDORES obrigam-se a promover a averbação de seu estado civil atualizado junto à matrícula do imóvel.
+
+DAS OBRIGAÇÕES DA COMPRADORA
+
+CLÁUSULA 7ª – A COMPRADORA promoverá, em até 2 meses (60 dias) após a posse, a alteração da titularidade das contas.
+
+CLÁUSULA 8ª – A COMPRADORA se responsabiliza pelas despesas com a transmissão do imóvel.
+
+CLÁUSULA 9ª – Correrão a expensas da COMPRADORA os impostos, taxas e emolumentos necessários.
+
+DA RESCISÃO E DESISTÊNCIA
+
+CLÁUSULA 10ª – O contrato é irrevogável e irretratável.
+
+CLÁUSULA 11ª – A parte que desistir deve pagar multa de 10% sobre o valor do imóvel.
+
+CLÁUSULA 12ª – Em caso de desistência pela COMPRADORA, os honorários da Icone Imob serão pagos com os valores arrecadados pelos VENDEDORES.
+
+INADIMPLÊNCIA
+
+CLÁUSULA 13ª – Rescisão em caso de inadimplência, com indenização de 10% do valor total.
+
+CLÁUSULA 14ª – Em rescisão por inadimplemento sem culpa dos VENDEDORES, a COMPRADORA paga multa de 10%.
+
+PARÁGRAFO ÚNICO – Se comprovada culpa exclusiva do banco, nova data por Termo Aditivo.
+
+DISPOSIÇÕES GERAIS
+
+CLÁUSULA 15ª – A COMPRADORA declara que o imóvel está desocupado e está de pleno acordo em recebê-lo.
+
+1º. Prazos contados a partir da assinatura.
+2º. Os VENDEDORES respondem pelos riscos de evicção.
+
+CLÁUSULA 16ª – Fica o Registro de Imóveis autorizado a promover o registro deste instrumento.
+
+DO FORO
+
+CLÁUSULA 17ª – Foro da Comarca de Belém, Estado do Pará.
+
+Belém-Pará, [DATA].
+
+___________________________________________________________________
+VENDEDOR: [NOME VENDEDOR 1], CPF/MF nº [CPF VENDEDOR 1]
+
+___________________________________________________________________
+VENDEDORA: [NOME VENDEDOR 2], CPF/MF nº [CPF VENDEDOR 2]
+
+___________________________________________________________________
+COMPRADORA: [NOME COMPRADOR], CPF/MF nº [CPF COMPRADOR]
+
+TESTEMUNHAS:
+1) Nome:_____________________ RG:_______________________ CPF:______________________
+2) Nome:_____________________ RG:_______________________ CPF:______________________`},
+  {id:'locacao-adm',nome:'Locação — Administração + Capitalização',desc:'Locação com administração Icone Imob. Garantia ICATU.',ic:'🏢',tipo:'Locação',
+  texto:`CONTRATO nº [NÚMERO]
+
+CONTRATO DE LOCAÇÃO RESIDENCIAL
+
+LOCADOR: [NOME LOCADOR], de nacionalidade [NACIONALIDADE], [ESTADO CIVIL], [PROFISSÃO], portador da Carteira de Identidade RG nº [RG LOCADOR], inscrito no CPF/MF sob o nº [CPF LOCADOR], residente e domiciliado na [ENDEREÇO LOCADOR].
+
+LOCATÁRIO(S): [NOME LOCATÁRIO 1], de nacionalidade [NACIONALIDADE], [ESTADO CIVIL], [PROFISSÃO], portador(a) da Carteira Identidade [RG LOCATÁRIO 1], inscrito(a) no CPF sob o nº [CPF LOCATÁRIO 1], residente e domiciliado(a) na [ENDEREÇO LOCATÁRIO 1][, [NOME LOCATÁRIO 2], de nacionalidade [NACIONALIDADE], [ESTADO CIVIL], [PROFISSÃO], portador(a) da Carteira Identidade [RG LOCATÁRIO 2], inscrito(a) no CPF sob o nº [CPF LOCATÁRIO 2], residente e domiciliado(a) na [ENDEREÇO LOCATÁRIO 2]].
+
+DOS DOCUMENTOS:
+Faz parte integrante e inseparável do presente contrato:
+1. Ficha de cadastro do(s) LOCATÁRIO(S);
+2. Proposta do Título de Capitalização de Pagamento Único da modalidade Instrumento de Garantia, junto à ICATU CAPITALIZAÇÃO S/A;
+3. Proposta do seguro contra incêndio, emitida pela seguradora PORTO SEGURO;
+4. Instrumento de vistoria com imagens;
+5. LAUDO DE VISTORIA. O(s) LOCATÁRIO(S) tem prazo improrrogável de 15 (quinze) dias da assinatura para comunicar eventuais vícios de fácil constatação não percebidos na vistoria.
+
+I – OBJETO
+CLÁUSULA PRIMEIRA: Locação do imóvel localizado na [ENDEREÇO COMPLETO DO IMÓVEL].
+
+II – DESTINAÇÃO
+CLÁUSULA SEGUNDA: O(s) LOCATÁRIO(S) utilizará(ão) o imóvel exclusivamente para fins residenciais, sendo vedada cessão, transferência ou sublocação sem consentimento escrito do LOCADOR.
+
+III – PRAZO
+CLÁUSULA QUARTA: Locação pelo prazo determinado de [PRAZO] meses, de [DATA INÍCIO] a [DATA FIM].
+
+CLÁUSULA QUINTA: Se o(s) LOCATÁRIO(S) devolver(em) o imóvel antes do prazo, pagará(ão) multa de 10% do saldo devedor, proporcional ao período de cumprimento.
+
+PARÁGRAFO ÚNICO: Dispensados da multa se a devolução decorrer de transferência pelo empregador, com aviso de 30 dias.
+
+CLÁUSULA SEXTA: Findo o prazo, prorrogar-se-á a locação mediante assinatura de novo contrato.
+
+IV – PREÇO
+CLÁUSULA SÉTIMA: O aluguel mensal é de [VALOR ALUGUEL] ([ALUGUEL POR EXTENSO]) com REAJUSTE ANUAL pelo índice IGP-M.
+
+PARÁGRAFO ÚNICO: O(s) LOCATÁRIO(S) estão cientes que o valor total mensal é de [VALOR TOTAL MENSAL] ([TOTAL POR EXTENSO]), sendo [VALOR ALUGUEL] de aluguel + [VALOR CONDOMÍNIO] de condomínio.
+
+CLÁUSULA OITAVA: O aluguel será pago no dia [DIA VENCIMENTO] de cada mês. Se não receber boleto, depositar em favor da RMX Negócios Imobiliários, Banco Bradesco, Agência: 5596-4, Conta Corrente: 0024156-3, CNPJ: 26.499.669/0001-63; enviar comprovante para contato@remaximob.com.br. Atraso implica multa de 10% mais 1% de juros ao mês.
+
+PARÁGRAFO ÚNICO: O(s) LOCATÁRIO(S) efetuará(ão) o pagamento do proporcional de condomínio referente ao período [PERÍODO PROPORCIONAL].
+
+CLÁUSULA NONA: Dificuldade de pagamento: depósito judicial até o 5º dia útil do mês subsequente.
+
+CLÁUSULA DÉCIMA: O aluguel é líquido ao LOCADOR, sendo de responsabilidade do(s) LOCATÁRIO(S):
+a) Despesas de energia, água, telefone, gás e condomínio;
+b) Exigências do poder público relativas ao imóvel;
+c) Transferência da CONTA CONTRATO [NÚMERO CONTA] para seu nome em até 30 dias.
+
+V - DA GARANTIA LOCATÍCIA
+CLÁUSULA DÉCIMA PRIMEIRA: Como garantia, o(s) LOCATÁRIO(S) dá(ão) em Caução ao LOCADOR o Título de Capitalização de Pagamento Único da ICATU CAPITALIZAÇÃO S/A, no valor total de [VALOR CAPITALIZAÇÃO] ([CAPITALIZAÇÃO POR EXTENSO]), Proposta nº [NÚMERO PROPOSTA].
+
+PARÁGRAFO PRIMEIRO: O(s) LOCATÁRIO(S) cede(m) 100% do direito sobre a quota de capitalização ao LOCADOR.
+PARÁGRAFO SEGUNDO: Em caso de inobservância das cláusulas, o LOCADOR poderá resgatar o título.
+PARÁGRAFO TERCEIRO: O LOCADOR confere à Administradora todos os poderes para administrar o imóvel.
+PARÁGRAFO QUARTO: Ao término do Título, o(s) LOCATÁRIO(S) obriga(m)-se a renová-lo.
+PARÁGRAFO QUINTO: Resgate durante a vigência requer anuência expressa do LOCADOR.
+
+VI – SEGURO INCÊNDIO
+PARÁGRAFO ÚNICO: O(s) LOCATÁRIO(S) pagará(ão) anualmente o Seguro Contra Incêndio, emitido pela PORTO SEGURO.
+
+VII – CONSERVAÇÃO
+CLÁUSULA DÉCIMA SEGUNDA: O(s) LOCATÁRIO(S) devolverá(ão) o imóvel no estado em que o recebe(m), conforme Laudo de Vistoria.
+
+CLÁUSULA DÉCIMA TERCEIRA: O(s) LOCATÁRIO(S) reparará(ão) imediatamente os danos verificados no imóvel provocados por si ou seus dependentes.
+
+CLÁUSULA DÉCIMA QUARTA: O(s) LOCATÁRIO(S) é(são) responsável(is) pelos danos causados ao imóvel.
+
+CLÁUSULA DÉCIMA QUINTA: O LOCADOR poderá inspecionar o imóvel com aviso prévio de 02 (dois) dias úteis.
+
+CLÁUSULA DÉCIMA SEXTA: Benfeitorias dependem de autorização por escrito do LOCADOR.
+
+VIII – SANÇÕES
+CLÁUSULA DÉCIMA SÉTIMA: Em caso de inadimplemento:
+a) Rescisão contratual automática;
+b) Multa de 10% por atraso mais 1% ao mês de juros;
+c) Multa penal igual ao valor do dano;
+d) Inclusão no SPC e SERASA após 30 dias de atraso;
+e) Devolução do imóvel após 02 meses consecutivos de inadimplência;
+f) Perdas e danos, incluindo custos processuais;
+g) Honorários advocatícios: 20% se litigioso, 10% se amigável.
+
+IX – DAS DISPOSIÇÕES FINAIS
+CLÁUSULA DÉCIMA OITAVA: O(s) LOCATÁRIO(S) receberá(ão) as chaves mediante pagamento da CAPITALIZAÇÃO com vencimento no dia [DATA VENCIMENTO CAPITALIZAÇÃO], pagamento do SEGURO CONTRA INCÊNDIO e ASSINATURA RECONHECIDA DO CONTRATO.
+
+CLÁUSULA DÉCIMA NONA: Foro da Comarca de Belém, Estado do Pará.
+
+Belém/PA, [DATA].
+
+_______________________________________________________________________
+LOCADOR: [NOME LOCADOR], CPF nº [CPF LOCADOR].
+
+_______________________________________________________________________
+LOCATÁRIO(A): [NOME LOCATÁRIO 1], CPF nº [CPF LOCATÁRIO 1].
+
+_______________________________________________________________________
+LOCATÁRIO(A): [NOME LOCATÁRIO 2], CPF nº [CPF LOCATÁRIO 2].
+
+TESTEMUNHAS:
+Nome: ______________________________ Nome: ______________________________
+CPF: _______________________________ CPF: _______________________________
+
+
+CONTRATO DE ADMINISTRAÇÃO E INTERMEDIAÇÃO DE IMÓVEL
+CONTRATO nº [NÚMERO ADM]
+
+1. CONTRATANTE: [NOME LOCADOR], CPF/MF nº [CPF LOCADOR], residente na [ENDEREÇO LOCADOR].
+
+2. CONTRATADA: RMX NEGOCIOS IMOBILIÁRIOS LTDA, CRECI 838-J, CNPJ/MF 26.499.669/0001-63, Avenida Senador Lemos, 78, Umarizal, CEP 66050-000, Belém-PA.
+
+3. OBJETO: Administração exclusiva do imóvel localizado na [ENDEREÇO COMPLETO DO IMÓVEL].
+
+4. PRAZO: Vigência enquanto o imóvel estiver sob administração da Contratada.
+
+CLÁUSULA PRIMEIRA – OBRIGAÇÕES DA CONTRATADA:
+1.1. Repassar aluguéis no 1º dia útil após compensação, via transferência ao [BANCO LOCADOR], Agência: [AGÊNCIA LOCADOR], C/C [CONTA LOCADOR], em favor de [NOME LOCADOR], CPF nº [CPF LOCADOR].
+1.2. Administrar encargos, taxas e impostos dentro do prazo do Contrato de Locação.
+1.3. Responsável por honorários advocatícios para garantir direitos do CONTRATANTE.
+1.4. Disponível para acompanhar vistorias com aviso mínimo de 72 horas.
+
+CLÁUSULA SEGUNDA – OBRIGAÇÕES DO CONTRATANTE:
+2.1. Contrata os serviços da CONTRATADA para locação e administração do imóvel.
+2.2. Concorda com a taxa mensal de honorários pela administração.
+2.3. Se imóvel desocupado, CONTRATANTE arca com todos os encargos.
+2.4. Entregar o imóvel em perfeito estado de limpeza e funcionamento.
+
+CLÁUSULA TERCEIRA – RENOVAÇÃO: Se o Contrato de Locação for renovado com o mesmo Locatário, este Contrato de Administração será automaticamente prorrogado.
+
+CLÁUSULA QUARTA – MULTA CONTRATUAL: Desistência implica multa de 1 (um) aluguel.
+
+CLÁUSULA QUINTA – HONORÁRIOS: A CONTRATADA faz jus a 100% de um aluguel pela intermediação e 10% mensal sobre o valor do aluguel pela administração.
+
+Belém/PA, [DATA].
+
+__________________________________________________________________________
+CONTRATADA: RMX NEGOCIOS IMOBILIÁRIOS LTDA, CNPJ/MF 26.499.669/0001-63
+
+TESTEMUNHAS:
+Nome: ______________________________ Nome: ________________________________
+CPF/MF:_____________________________ CPF/MF:______________________________
+
+__________________________________________________________________________
+CONTRATANTE: [NOME LOCADOR], CPF/MF nº [CPF LOCADOR].`}
+];
+
+// ── Nav ──
+function navTo(t){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.nav-btn,.side-nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sc-'+t).classList.add('on');
+  // Bottom nav (iPhone)
+  const nb=document.getElementById('nav-'+t);
+  if(nb)nb.classList.add('active');
+  // Side nav (iPad)
+  const sb=document.getElementById('side-'+t);
+  if(sb)sb.classList.add('active');
+  if(t==='lib')renderLib();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── Todos os modelos (base + extras salvos) ──
+function todosModelos(){
+  const extras=JSON.parse(localStorage.getItem('rmx_modelos')||'[]');
+  return [...MODELOS,...extras];
+}
+
+// ── Lib: renderiza lista com editar/excluir ──
+function renderLib(){
+  const todos=todosModelos();
+  document.getElementById('lib-count').textContent=`${todos.length} modelo${todos.length!==1?'s':''} no total — ${MODELOS.length} padrão + ${todos.length-MODELOS.length} adicionado${todos.length-MODELOS.length!==1?'s':''}`;
+  document.getElementById('lib-lista').innerHTML=todos.map((m,i)=>{
+    const isBase=i<MODELOS.length;
+    return `<div class="lib-item">
+      <div class="lib-ic">${m.ic}</div>
+      <div class="lib-info">
+        <div class="lib-nome">${m.nome}</div>
+        <div class="lib-tipo">${m.tipo} · ${m.desc}</div>
+      </div>
+      <div class="lib-actions">
+        <button class="btn-sm warning" onclick="abrirRevisar('${m.id}')">✎</button>
+        ${!isBase?`<button class="btn-sm danger" onclick="excluirModelo('${m.id}')">✕</button>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Modelos na tela Gerar ──
+let modeloSel=null;
+function renderModelos(){
+  document.getElementById('modelo-grid').innerHTML=todosModelos().map(m=>`
+    <button class="modelo-btn" onclick="selModelo('${m.id}',this)">
+      <div class="modelo-ic">${m.ic}</div>
+      <div class="modelo-info">
+        <div class="modelo-nome">${m.nome}</div>
+        <div class="modelo-desc">${m.desc}</div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;flex-shrink:0">
+        <span style="font-size:10px;background:var(--al);color:var(--accent);padding:2px 7px;border-radius:10px;font-weight:500">${m.tipo}</span>
+        <button style="background:none;border:none;font-size:1rem;cursor:pointer;color:var(--ink3);padding:2px" onclick="event.stopPropagation();abrirRevisar('${m.id}')" title="Revisar modelo">✎</button>
+        <div class="modelo-check">✓</div>
+      </div>
+    </button>`).join('');
+}
+function selModelo(id,el){modeloSel=id;document.querySelectorAll('.modelo-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');}
+
+// ── Modal revisar/editar ──
+let modalModeloId=null;
+function abrirRevisar(id){
+  const m=todosModelos().find(x=>x.id===id);
+  if(!m)return;
+  modalModeloId=id;
+  document.getElementById('modal-titulo').textContent='Revisar: '+m.nome;
+  document.getElementById('modal-texto').value=m.texto;
+  document.getElementById('modal-revisar').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function fecharModal(){
+  document.getElementById('modal-revisar').classList.remove('on');
+  document.body.style.overflow='';
+  modalModeloId=null;
+}
+function salvarEdicaoModelo(){
+  if(!modalModeloId)return;
+  const novoTexto=document.getElementById('modal-texto').value.trim();
+  if(!novoTexto){alert('O texto do modelo não pode estar vazio.');return;}
+  // Base model: salva override nos extras com sufixo -edited
+  const baseIdx=MODELOS.findIndex(m=>m.id===modalModeloId);
+  const extras=JSON.parse(localStorage.getItem('rmx_modelos')||'[]');
+  if(baseIdx>=0){
+    // Edita modelo base: salva como extra com id -edited
+    const base=MODELOS[baseIdx];
+    const editId=base.id+'-edited';
+    const extrasIdx=extras.findIndex(e=>e.id===editId||e.id===base.id);
+    if(extrasIdx>=0) extras[extrasIdx]={...extras[extrasIdx],texto:novoTexto};
+    else extras.push({...base,id:editId,texto:novoTexto,desc:base.desc+' (editado)'});
+    // Remove modelo base do array de modelos para não duplicar — marca como overridden
+    MODELOS[baseIdx]={...MODELOS[baseIdx],texto:novoTexto};
+  } else {
+    const idx=extras.findIndex(e=>e.id===modalModeloId);
+    if(idx>=0) extras[idx]={...extras[idx],texto:novoTexto};
+  }
+  localStorage.setItem('rmx_modelos',JSON.stringify(extras));
+  fecharModal();
+  renderModelos();
+  renderLib();
+  alert('Modelo atualizado com sucesso!');
+}
+function excluirModelo(id){
+  if(!confirm('Excluir este modelo da biblioteca?'))return;
+  const extras=JSON.parse(localStorage.getItem('rmx_modelos')||'[]');
+  localStorage.setItem('rmx_modelos',JSON.stringify(extras.filter(e=>e.id!==id)));
+  renderModelos();
+  renderLib();
+}
+
+// ── Adicionar novo modelo: upload PDF ──
+let novoPdfTexto=null, novoIcSel='🏠';
+function selIc(ic,el){novoIcSel=ic;document.querySelectorAll('.ic-opt').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');}
+
+async function handleNovoPdf(inp){
+  const f=inp.files[0]; if(!f)return;
+  const uz=document.getElementById('novo-uz'), lbl=document.getElementById('novo-uz-lbl'), ok=document.getElementById('novo-uz-ok');
+  lbl.textContent='Lendo PDF...';
+  try{
+    const ab=await f.arrayBuffer();
+    // Tenta usar pdf.js se disponível, senão usa fallback
+    if(typeof pdfjsLib!=='undefined'){
+      const pdf=await pdfjsLib.getDocument({data:ab}).promise;
+      let txt='';
+      for(let i=1;i<=pdf.numPages;i++){
+        const pg=await pdf.getPage(i);
+        const c=await pg.getTextContent();
+        txt+=c.items.map(it=>it.str).join(' ')+'\n';
+      }
+      novoPdfTexto=txt.trim();
+    } else {
+      novoPdfTexto='[Texto extraído de: '+f.name+']';
+    }
+    uz.classList.add('loaded');
+    lbl.textContent='PDF carregado';
+    ok.textContent='✓ '+f.name;
+    ok.style.display='block';
+    // Sugerir nome automaticamente
+    if(!document.getElementById('novo-nome').value){
+      const sugestao=f.name.replace('.pdf','').replace(/_/g,' ').replace(/-/g,' ');
+      document.getElementById('novo-nome').value=sugestao.charAt(0).toUpperCase()+sugestao.slice(1);
+    }
+  }catch(e){lbl.textContent='Erro ao ler PDF.';novoPdfTexto=null;}
+}
+
+function salvarNovoModelo(){
+  const nome=document.getElementById('novo-nome').value.trim();
+  const tipo=document.getElementById('novo-tipo').value;
+  const err=document.getElementById('novo-err');
+  err.style.display='none';
+  if(!nome){err.textContent='⚠️ Informe um nome para o modelo.';err.style.display='block';return;}
+  if(!novoPdfTexto){err.textContent='⚠️ Envie o PDF do modelo antes de salvar.';err.style.display='block';return;}
+  const id='custom-'+Date.now();
+  const extras=JSON.parse(localStorage.getItem('rmx_modelos')||'[]');
+  extras.push({id,nome,desc:tipo+' personalizado',ic:novoIcSel,tipo,texto:novoPdfTexto});
+  localStorage.setItem('rmx_modelos',JSON.stringify(extras));
+  // Reset form
+  document.getElementById('novo-nome').value='';
+  document.getElementById('novo-uz').classList.remove('loaded');
+  document.getElementById('novo-uz-lbl').textContent='Toque para enviar o PDF do modelo';
+  document.getElementById('novo-uz-ok').style.display='none';
+  document.getElementById('novo-pdf').value='';
+  novoPdfTexto=null;
+  renderModelos();
+  renderLib();
+  alert('Modelo "'+nome+'" adicionado à biblioteca!');
+}
+
+// ── Exemplo ──
+function fillEx(){document.getElementById('ei').value=`Vendedores: Geraldo de Oliveira Pinto, CPF 734.469.122-15, RG 3539613 PC/PA, casado, bancário, Travessa Dom Romualdo de Seixas, 1099, Edifício Umuarana, Apt 101, Umarizal, Belém/PA. Renata Helena Silva Carneiro Pinto, CPF 777.265.612-20, mesma profissão e endereço.\n\nCompradores: João Silva Santos, CPF 111.222.333-44, casado, engenheiro, Rua das Flores, 200, Belém/PA. Maria Costa Santos, CPF 555.666.777-88, casada, professora.\n\nImóvel: Rua Exemplo, 500, apto 201, Umarizal, Belém/PA. Matrícula 12345, 1º CRI Belém. 3 quartos, 90m².\n\nNegociação: Valor total R$ 480.000. Sinal R$ 48.000 (na assinatura). FGTS R$ 50.000. Financiamento R$ 382.000 — prazo 90 dias. Chaves 30 dias após pagamento.\n\nBanco: Banco da Amazônia, AG 0078, CC 060101-7, PIX CPF: 734.469.122-15\n\nBelém/PA, 14 de abril de 2026.`;}
+
+// ── Steps ──
+const STEPS=['Lendo modelo...','Extraindo dados...','Redigindo contrato...','Ajustando cláusulas...','Quase pronto...'];
+let si=0,stTimer=null;
+function startSteps(){si=0;document.getElementById('st').textContent=STEPS[0];stTimer=setInterval(()=>{si=(si+1)%STEPS.length;document.getElementById('st').textContent=STEPS[si];},2500);}
+function stopSteps(){clearInterval(stTimer);}
+
+// ── Estado ──
+let contrato='',docxBlob=null;
+
+// ── Gerar ──
+async function gerar(){
+  const email=document.getElementById('ei').value.trim();
+  if(!email){alert('Cole as informações do negócio.');return;}
+  if(!modeloSel){alert('Selecione um modelo de contrato.');return;}
+  const modelo=todosModelos().find(m=>m.id===modeloSel);
+  const btn=document.getElementById('btn-gen');
+  btn.disabled=true; docxBlob=null;
+  document.getElementById('sb').classList.add('on');
+  document.getElementById('rc').classList.remove('on');
+  document.getElementById('err').style.display='none';
+  startSteps();
+
+  const prompt=`Você é um assistente de preenchimento de contratos imobiliários da RMX Negócios Imobiliários (CNPJ 26.499.669/0001-63), Belém/PA.
+
+Sua única tarefa é PREENCHER o modelo abaixo com os dados fornecidos. Você NÃO deve resumir, encurtar, omitir ou reescrever nenhuma parte do modelo.
+
+MODELO ORIGINAL (reproduza INTEGRALMENTE — cada palavra, cada parágrafo, cada cláusula):
+=== INÍCIO DO MODELO ===
+${modelo.texto}
+=== FIM DO MODELO ===
+
+DADOS DO NEGÓCIO:
+=== DADOS ===
+${email}
+=== FIM DOS DADOS ===
+
+REGRAS ABSOLUTAS — VIOLÁ-LAS É PROIBIDO:
+1. REPRODUZA O MODELO PALAVRA POR PALAVRA. Cada cláusula, cada parágrafo, cada frase do modelo deve aparecer no resultado exatamente como está. Nada pode ser omitido.
+2. APENAS substitua os campos entre colchetes [CAMPO] pelos dados correspondentes. Nada mais muda.
+3. Se um dado não foi fornecido, mantenha [A PREENCHER] no lugar.
+4. Calcule o valor dos honorários da corretagem (6% do valor total) e escreva por extenso.
+5. Escreva todos os valores monetários também por extenso entre parênteses.
+6. Use a data informada ou a data de hoje: ${new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'})}.
+7. Saída: APENAS o contrato preenchido. Zero explicações, zero comentários, zero introduções.`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:8000,messages:[{role:'user',content:prompt}]})
+    });
+    if(!res.ok) throw new Error('Erro na API: '+res.status);
+    const data=await res.json();
+    contrato=data.content[0].text;
+    document.getElementById('cp').textContent=contrato;
+    docxBlob=gerarDocx(contrato);
+    document.getElementById('rc').classList.add('on');
+    document.getElementById('rc').scrollIntoView({behavior:'smooth',block:'start'});
+  }catch(e){
+    const eb=document.getElementById('err');
+    eb.textContent='⚠️ Erro: '+e.message;
+    eb.style.display='block';
+  }finally{
+    btn.disabled=false; stopSteps();
+    document.getElementById('sb').classList.remove('on');
+  }
+}
+
+// ── DOCX puro (ZIP manual) ──
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function lp(l){
+  const t=l.trim();
+  if(!t) return `<w:p><w:pPr><w:spacing w:after="80"/></w:pPr><w:r><w:t xml:space="preserve"> </w:t></w:r></w:p>`;
+  if(t===t.toUpperCase()&&t.length>5&&t.length<130&&/[A-ZÁÉÍÓÚÂÊÎÔÛÃÕ]/.test(t))
+    return `<w:p><w:pPr><w:jc w:val="center"/><w:spacing w:before="240" w:after="120"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="28"/><w:szCs w:val="28"/></w:rPr><w:t>${esc(t)}</w:t></w:r></w:p>`;
+  if(/^(CLÁUSULA|Cláusula|PARÁGRAFO|CAPITULO|Capítulo|Art\.)\s/i.test(t))
+    return `<w:p><w:pPr><w:spacing w:before="160" w:after="60"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr><w:t xml:space="preserve">${esc(t)}</w:t></w:r></w:p>`;
+  if(/^_{4,}/.test(t)||/^-{4,}/.test(t))
+    return `<w:p><w:pPr><w:jc w:val="center"/><w:spacing w:before="280" w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr><w:t>${esc(t)}</w:t></w:r></w:p>`;
+  const ps=[],rx=/\*\*([^*]+)\*\*/g;let last=0,m;
+  while((m=rx.exec(t))!==null){
+    if(m.index>last) ps.push(`<w:r><w:rPr><w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr><w:t xml:space="preserve">${esc(t.slice(last,m.index))}</w:t></w:r>`);
+    ps.push(`<w:r><w:rPr><w:b/><w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr><w:t>${esc(m[1])}</w:t></w:r>`);
+    last=rx.lastIndex;
+  }
+  if(last<t.length) ps.push(`<w:r><w:rPr><w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr><w:t xml:space="preserve">${esc(t.slice(last))}</w:t></w:r>`);
+  return `<w:p><w:pPr><w:jc w:val="both"/><w:spacing w:before="40" w:after="40" w:line="340" w:lineRule="auto"/></w:pPr>${ps.length?ps.join(''):(`<w:r><w:rPr><w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr><w:t xml:space="preserve">${esc(t)}</w:t></w:r>`)}</w:p>`;
+}
+
+function gerarDocx(texto){
+  const body=texto.split('\n').map(lp).join('');
+  const docXml=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body><w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1418" w:right="1134" w:bottom="1418" w:left="1701"/></w:sectPr>${body}</w:body></w:document>`;
+  return criarZip({
+    '[Content_Types].xml':`<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>`,
+    '_rels/.rels':`<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`,
+    'word/document.xml':docXml,
+    'word/_rels/document.xml.rels':`<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>`
+  });
+}
+
+function criarZip(files){
+  const enc=new TextEncoder();
+  const u32=n=>{const b=new Uint8Array(4);new DataView(b.buffer).setUint32(0,n,true);return b;};
+  const u16=n=>{const b=new Uint8Array(2);new DataView(b.buffer).setUint16(0,n,true);return b;};
+  const cat=(...a)=>{const t=a.reduce((s,x)=>s+x.length,0),o=new Uint8Array(t);let p=0;for(const x of a){o.set(x,p);p+=x.length;}return o;};
+  const crc32=d=>{const T=new Uint32Array(256);for(let i=0;i<256;i++){let c=i;for(let j=0;j<8;j++)c=c&1?0xEDB88320^(c>>>1):c>>>1;T[i]=c;}let c=0xFFFFFFFF;for(let i=0;i<d.length;i++)c=T[(c^d[i])&0xFF]^(c>>>8);return(c^0xFFFFFFFF)>>>0;};
+  const dt=new Date();const dv=((dt.getFullYear()-1980)<<9)|((dt.getMonth()+1)<<5)|dt.getDate();const tv=(dt.getHours()<<11)|(dt.getMinutes()<<5)|(dt.getSeconds()>>1);
+  const parts=[],dir=[];let off=0;
+  for(const[name,content] of Object.entries(files)){
+    const nb=enc.encode(name),da=enc.encode(content),crc=crc32(da);
+    const lh=cat(new Uint8Array([0x50,0x4B,0x03,0x04]),u16(20),u16(0),u16(0),u16(tv),u16(dv),u32(crc),u32(da.length),u32(da.length),u16(nb.length),u16(0),nb);
+    dir.push({nb,crc,size:da.length,off});parts.push(lh,da);off+=lh.length+da.length;
+  }
+  const cd=cat(...dir.map(({nb,crc,size,off:o})=>cat(new Uint8Array([0x50,0x4B,0x01,0x02]),u16(20),u16(20),u16(0),u16(0),u16(tv),u16(dv),u32(crc),u32(size),u32(size),u16(nb.length),u16(0),u16(0),u16(0),u16(0),u32(0),u32(o),nb)));
+  const eocd=cat(new Uint8Array([0x50,0x4B,0x05,0x06]),u16(0),u16(0),u16(dir.length),u16(dir.length),u32(cd.length),u32(off),u16(0));
+  return new Blob([...parts,cd,eocd],{type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+}
+
+// ── Downloads ──
+// Converte Blob para base64 DataURL e abre em nova aba (compatível com Safari/iPhone)
+async function blobParaDataUrl(blob){
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>res(r.result);
+    r.onerror=rej;
+    r.readAsDataURL(blob);
+  });
+}
+
+async function dlDocx(){
+  if(!docxBlob)return;
+  try{
+    // Tenta download direto primeiro (Chrome/Android)
+    const url=URL.createObjectURL(docxBlob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=`contrato-${modeloSel}-${new Date().toISOString().slice(0,10)}.docx`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url),5000);
+  }catch(e){
+    // Fallback para Safari/iPhone: abre em nova aba
+    const dataUrl=await blobParaDataUrl(docxBlob);
+    const w=window.open('','_blank');
+    if(w){
+      w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><title>Baixar Contrato</title><style>body{font-family:-apple-system,sans-serif;padding:2rem;text-align:center;background:#f5f3ee;}h2{color:#2d5a3d;margin-bottom:1rem;}p{color:#5a5a52;margin-bottom:1.5rem;font-size:14px;}a{display:inline-block;background:#2d5a3d;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-size:15px;font-weight:500;}</style></head><body><h2>Contrato gerado ✓</h2><p>Toque no botão abaixo para baixar o arquivo Word.</p><a href="${dataUrl}" download="contrato.docx">⬇ Baixar Word (.docx)</a></body></html>`);
+    }
+  }
+}
+
+function dlPdf(){
+  if(!contrato)return;
+  const linhas=contrato.split('\n').map(l=>{
+    const t=l.trim();
+    if(!t)return'<div style="height:8px"></div>';
+    if(t===t.toUpperCase()&&t.length>5&&t.length<130&&/[A-ZÁÉÍÓÚ]/.test(t))return`<p style="text-align:center;font-weight:bold;font-size:14pt;margin:12px 0 6px">${t}</p>`;
+    if(/^(CLÁUSULA|Cláusula|PARÁGRAFO)/i.test(t))return`<p style="font-weight:bold;margin:10px 0 4px">${t}</p>`;
+    if(/^_{4,}/.test(t))return`<p style="text-align:center;margin:20px 0 4px">${t}</p>`;
+    return`<p style="text-align:justify;margin:3px 0;line-height:1.7">${t.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</p>`;
+  }).join('');
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><style>body{font-family:Arial,sans-serif;font-size:12pt;color:#000;margin:0}.bar{background:#2d5a3d;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;font-size:13px}.btn-p{background:#fff;color:#2d5a3d;border:none;padding:8px 18px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer}.page{max-width:21cm;margin:0 auto;padding:2cm 2cm 2cm 3cm}@media print{.bar{display:none}.page{padding:0;max-width:100%}}</style></head><body><div class="bar"><span>ContratosIA Icone Imob — Salve como PDF</span><button class="btn-p" onclick="window.print()">🖨 Imprimir / PDF</button></div><div class="page">${linhas}</div></body></html>`;
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  window.open(url,'_blank');
+}
+
+async function compartilhar(){
+  if(!contrato)return;
+  if(navigator.share){
+    try{await navigator.share({title:'Contrato — Icone Imob',text:contrato});return;}catch(e){}
+  }
+  copiar();
+}
+
+function copiar(){
+  if(!contrato)return;
+  navigator.clipboard.writeText(contrato).then(()=>{
+    const b=document.getElementById('bcopy');
+    const h=b.innerHTML;
+    b.innerHTML='<div class="ic">✓</div><div>Copiado!</div><div class="lbl"></div>';
+    setTimeout(()=>b.innerHTML=h,2000);
+  });
+}
+
+// ── Init ──
+document.getElementById("modal-revisar").addEventListener("click",function(e){if(e.target===this)fecharModal();});
+renderModelos();
+renderLib();
+</script>
+</body>
+</html>
